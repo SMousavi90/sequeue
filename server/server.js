@@ -81,6 +81,29 @@ app.get('/api/requestTypes', (req, res) => {
         });
 });
 
+app.post('/api/reserveSpot/:service_id', (req, res) => {
+  
+    console.log(req.params.service_id)
+    
+    
+    requestTypeDao.reserveSpot(req.params.service_id)
+        .then((obj) => {
+            if (!obj) {
+                res.status(404).send();
+            } else {
+
+                res.json(obj);
+                
+            }
+        })
+        .catch((err) => {
+            res.status(500).json({
+                errors: [{ 'param': 'Server', 'msg': err }],
+            });
+        }); 
+     
+});
+
 // For the rest of the code, all APIs require authentication
 app.use(
     jwt({

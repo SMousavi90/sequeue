@@ -24,3 +24,18 @@ exports.getRequestTypes = function (id) {
         });
     });
 }
+
+exports.reserveSpot = function (serv_id) {
+    return new Promise((resolve, reject) => {
+        
+        const sql = `INSERT INTO Queue(RequestTypeId) values (?)`
+        db.all(sql, [serv_id], (err, rows) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(rows);
+            
+        });
+    });
+}
