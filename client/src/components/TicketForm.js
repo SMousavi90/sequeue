@@ -34,24 +34,6 @@ class ReservationHistory extends React.Component {
                     </div>
                 </div>
             </div>
-
-            // <tr>
-            //     <td>{r.brand} - {r.model}</td>
-            //     <td>{r.startDate}</td>
-            //     <td>{r.endDate}</td>
-            //     <td>{r.price} €</td>
-            //     <td>{r.driverAge === 0 ? 'Under 25' : r.driverAge === 1 ? '25 - 65' : 'Over 65'}</td>
-            //     <td>{r.extraDriver}</td>
-            //     <td>{r.kilometer === 0 ? '<50 km/day' : r.kilometer === 1 ? '50 ~ 150 km/day' : '>150 km/day'}</td>
-            //     <td>{r.extraInsurance === 0 ? 'Yes' : 'No'}</td>
-            //     <td>{r.status === 0 ? (<span className="badge badge-warning">Booked</span>) : r.status === 1 ? (<span className="badge badge-danger">Canceled</span>) : (<span className="badge badge-success">Finished</span>)}</td>
-            //     <td>{
-            //         //  
-            //         (r.status === 0 && r.startDate >= new Date().toISOString().slice(0, 10)) ?
-            //             <Button variant="danger" className="ml-2" type="button"
-            //                 onClick={() => this.cancelReservation(r.id)}>Cancel</Button> : null
-            //     }</td>
-            // </tr>
         );
     }
 
