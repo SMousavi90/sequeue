@@ -13,6 +13,7 @@ const jwtSecret = '8778252EE28C45D9EE0ECD1A43324BBDC86677D2BCE308D2A9543599C8FF3
 const expireTime = 300; //seconds
 // Authorization error
 const authErrorObj = { errors: [{ 'param': 'Server', 'msg': 'Authorization error' }] };
+const dbErrorObj = { 'param': 'Server', 'msg': 'Database error' };
 
 //create application
 const app = express();
@@ -83,25 +84,29 @@ app.get('/api/requestTypes', (req, res) => {
 
 app.post('/api/reserveSpot/:service_id', (req, res) => {
   
-    console.log(req.params.service_id)
+    const serviceId = req.params.service_id;
+    const serviceTime = req.body.estimationTime;
     
-    
-    requestTypeDao.reserveSpot(req.params.service_id)
-        .then((obj) => {
-            if (!obj) {
-                res.status(404).send();
-            } else {
+    requestTypeDao.getNWaitingPeople(serviceId) //get n people waiting
+        .then((res1) => {
+            requestTypeDao.getCounterWeight(serviceId) //get total counter weight
+            .then((res2) => {
+                const estimatedWaitingTime = serviceTime*(res1.number/res2.weight + 0.5);
 
-                res.json(obj);
-                
-            }
+                requestTypeDao.reserveSpot(serviceId) //insert ticket
+                .then((obj) => {
+                    if (!obj) {
+                        res.status(404).send();
+                    } else {
+                        res.json({TicketId: obj.ticketId, EstimatedWaitingTime: estimatedWaitingTime});
+                    }
+                })
+                .catch((err) => res.status(500).json(dbErrorObj)); 
+            })
+            .catch((err) => res.status(500).json(dbErrorObj)); 
         })
-        .catch((err) => {
-            res.status(500).json({
-                errors: [{ 'param': 'Server', 'msg': err }],
-            });
-        }); 
-     
+        .catch((err) => res.status(500).json(dbErrorObj)); 
+
 });
 
 // For the rest of the code, all APIs require authentication

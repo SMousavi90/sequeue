@@ -68,5 +68,22 @@ async function getRequestTypes() {
     }
 }
 
-const API = { isAuthenticated, userLogin, userLogout, getRequestTypes };
+async function reserveSpot(service) {
+    const response = await fetch(baseURL + `/reserveSpot/${service.id}`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(service)
+    });
+    const json = await response.json();
+    if (response.ok) {
+        return json;
+    } else {
+        let err = { status: response.status, errObj: json };
+        throw err; 
+    }
+}
+
+const API = { isAuthenticated, userLogin, userLogout, getRequestTypes, reserveSpot };
 export default API;
