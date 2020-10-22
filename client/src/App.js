@@ -20,13 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // API.isAuthenticated().then(
-    //   (user) => {
-    //     this.setState({ authUser: user });
-    //   }
-    // ).catch((err) => {
-    //   this.setState({ authErr: err.errorObj });
-    // });
+    this.props.history.push("/ticket");
   }
 
   componentWillUnmount() {
