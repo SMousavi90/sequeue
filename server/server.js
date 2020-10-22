@@ -92,7 +92,7 @@ app.post('/api/reserveSpot/:service_id', (req, res) => {
             requestTypeDao.getCounterWeight(serviceId) //get total counter weight
             .then((res2) => {
 
-                const estimatedWaitingTime = serviceTime*(res1.number/res2.weight + 0.5);
+                const estimatedWaitingTime = Math.round(serviceTime*(res1.number/res2.weight + 0.5));
 
                 requestTypeDao.reserveSpot(serviceId) //insert ticket
                 .then((obj) => {
